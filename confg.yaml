@@ -1,0 +1,16 @@
+version: 0.01
+servers:
+  - name: "server_01"
+    host: "123.111.111.1"
+    port: 22
+    user: "root"
+    pass: "123123123"
+    method: "new"
+    key: "12"
+  - name: "server_02"
+    host: "123.111.111.1"
+    port: 22
+    user: "root"
+    pass: "123123123"
+    method: "new"
+    key: "12"

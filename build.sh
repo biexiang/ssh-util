@@ -13,7 +13,7 @@ function build() {
     echo "build ${pkg} ... "
     mkdir -p "./pack/${pkg}"
     CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -o "./pack/${pkg}/${TOOL}" -ldflags "-X main.Version=${VERSION} -X main.Date=${Date}" ./src/main.go
-    cp ./confg.yaml "./pack/${pkg}/config.yaml"
+    cp ./config.yaml "./pack/${pkg}/config.yaml"
 }
 
 build darwin amd64 macOS

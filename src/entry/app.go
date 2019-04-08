@@ -3,7 +3,6 @@ package entry
 import (
 	"fmt"
 	"strconv"
-	"strings"
 )
 
 const SEP  = "\t => "
@@ -27,7 +26,7 @@ func GetApp() *App {
 
 func (app *App) PrintAndServe() {
 	Clear()
-	fmt.Println("******************* ssh *******************")
+	fmt.Println("==========  ssh  ==========")
 	app.PrintServer()
 	app.PrintMenu()
 	fmt.Println("Please Input server number to connect or action name")
@@ -41,7 +40,7 @@ func (app *App) PrintAndServe() {
 		fmt.Println("Start Action " + ret1)
 	}else if ret2 != -1 {
 		fmt.Println("Choose Number " + strconv.Itoa(ret2),app.serverMap[ret2])
-		app.serverMap[ret2].Connect()
+		app.serverMap[ret2-1].Connect()
 	}
 }
 
@@ -54,8 +53,8 @@ func (app *App) PrintServer() {
 }
 
 func (app *App) PrintMenu() {
-	fmt.Println("========== Action ==========")
-	fmt.Println(strings.Join(action,"\n"))
+	//fmt.Println("========== Action ==========")
+	//fmt.Println(strings.Join(action,"\n"))
 }
 
 func (app *App) CheckInput() (string,int,bool) {

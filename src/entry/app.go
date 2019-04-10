@@ -16,6 +16,31 @@ func GetApp() *App {
 
 	var serverMap = make(map[int]Server)
 	for index,server := range C.Servers {
+
+		if server.Host == "" {
+			continue
+		}
+
+		if server.User == "" {
+			server.User = C.Default.User
+		}
+
+		if server.Pass == "" {
+			server.Pass = C.Default.Pass
+		}
+
+		if server.Port == "" {
+			server.Port = C.Default.Port
+		}
+
+		if server.Method == "" {
+			server.Method = C.Default.Method
+		}
+
+		if server.Key == "" {
+			server.Key = C.Default.Key
+		}
+
 		serverMap[index] = server
 	}
 

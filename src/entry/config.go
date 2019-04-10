@@ -17,13 +17,14 @@ import (
 type Config struct {
 	Version string `yaml:"version"`
 	Servers []Server `yaml:"servers"`
+	Default Default `yaml:"default"`
 }
 
 type Server struct {
 	Name 	 string `yaml:"name"`
 	Host     string `yaml:"host"`
 	Port     string `yaml:"port"`
-	User     string `yaml:"user"`
+	User 	 string `yaml:"user"`
 	Method	 string `yaml:"method"`
 	Pass     string `yaml:"pass"`
 	Key		 string `yaml:"key"`
@@ -32,15 +33,31 @@ type Server struct {
 	termHeight int
 }
 
+
+type Default struct {
+	Port     string `yaml:"port"`
+	User 	 string `yaml:"user"`
+	Method	 string `yaml:"method"`
+	Pass     string `yaml:"pass"`
+	Key		 string `yaml:"key"`
+}
+
 var C = Config{}
+var ConfigPath string
+var Host string
 
 func init() {
-	var configPath string
-	var help string
-	flag.StringVar(&configPath,"config","./config.yaml","Config Path")
-	flag.StringVar(&help,"h","","Show Help")
 
-	ret, err := ioutil.ReadFile(configPath)
+	flag.StringVar(&ConfigPath,"c","","Config Path")
+	flag.StringVar(&Host,"h","","Specific Which Host To Connect")
+	flag.Parse()
+
+	if ConfigPath == "" {
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	ret, err := ioutil.ReadFile(ConfigPath)
 	if err != nil {
 		log.Println(err)
 	}

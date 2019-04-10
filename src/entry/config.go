@@ -82,7 +82,7 @@ func (server Server) Connect() {
 	address := server.Host + ":" + server.Port
 	client,err := ssh.Dial("tcp",address,config)
 	if err != nil {
-		fmt.Println("Error In Build Connection")
+		fmt.Println("Error In Build Connection with ", server.Host)
 		return
 	}
 	defer client.Close()

@@ -2,6 +2,7 @@ package entry
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 )
 
@@ -51,22 +52,19 @@ func GetApp() *App {
 
 func (app *App) PrintAndServe() {
 	Clear()
-	fmt.Println("==========  ssh  ==========")
 	app.PrintServer()
-	app.PrintMenu()
 	fmt.Println("Please Input server number to connect or action name")
 
-	ret1,ret2,isValid := app.CheckInput()
+	ret,isValid := app.CheckInput()
 	if !isValid {
-		ret1,ret2,isValid = app.CheckInput()
+		ret,isValid = app.CheckInput()
 	}
 
-	if ret1 != "" {
-		fmt.Println("Start Action " + ret1)
-	}else if ret2 != -1 {
-		fmt.Println("Choose Number " + strconv.Itoa(ret2),app.serverMap[ret2])
-		app.serverMap[ret2-1].Connect()
+	if !isValid {
+		fmt.Println("Input Not Valid")
+		os.Exit(1)
 	}
+	app.serverMap[ret-1].Connect()
 }
 
 func (app *App) PrintServer() {
@@ -77,32 +75,14 @@ func (app *App) PrintServer() {
 	}
 }
 
-func (app *App) PrintMenu() {
-	//fmt.Println("========== Action ==========")
-	//fmt.Println(strings.Join(action,"\n"))
-}
-
-func (app *App) CheckInput() (string,int,bool) {
-	var input = ""
+func (app *App) CheckInput() (int,bool) {
+	var input int
 	for{
 		fmt.Scanln(&input)
-		isActionExists := func(inputAction string) (string,bool) {
-			for _,sepAction := range action {
-				if inputAction == sepAction {
-					return sepAction,true
-				}
-			}
-			return "",false
-		}
-		if ret,isExists := isActionExists(input); isExists {
-			return ret,-1,isExists
-		}
-
-		i,_ := strconv.Atoi(input)
-		if _,isExists := app.serverMap[i]; !isExists {
-			return "",-1,false
+		if _,isExists := app.serverMap[input - 1]; !isExists {
+			return -1,false
 		}else {
-			return "",i,true
+			return input,true
 		}
 	}
 }
